@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@Styles.Render("~/Content/datatables.min.css")
+
+@section Scripts {  
+
+@Scripts.Render("~/Scripts/datatables.min.js")
+@Scripts.Render("~/Scripts/dataTableExt.js")
+
+<script type="text/javascript">
+
+            $(document).ready(function () {
+                $('#example').dataTable({
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": '@Url.Action("GetEventInformation")',
+                    "aoColumns": [
+                        { "sName": "Title", "bSortable": false },
+                        { "sName": "StartDate", "bSortable": false },
+                        { "sName": "Link", "bSortable": false },
+                        { "sName": "Technology", "bSortable": false }
+                    ]
+                }).fnSetFilteringDelay();
+
+                $('#example_paginate').append('<a tabindex="0" class="paginate_enabled_next" id="iterator" role="button" aria-controls="example">Next 1000</a>');
+                $("#iterator").bind("click", function () {
+                    for (var i = 0; i < 1000; i++) {
+                        $('#example_next').click();
+                    }
+                });
+            });
+
+         
+            $('#bttnDate').click(function () {
+                var valor = $('#txtNum').val();
+                $.ajax({
+                    url: '@Url.Action("GetTime")',
+                    data: { valor: valor},
+                    cache: false
+                })
+                  .done(function (data) {
+                      $('#divFecha').html(data.date);
+                  });
+            });
+
+            $('#bttnManual').click(function () {
+                var displayStart = $('#txtiDisplayStart').val();
+                var displayLength = $('#txtiDisplayLength').val();
+                var search = $('#txtsSearch').val();
+                $.ajax({
+                    url: '@Url.Action("GetEventInformation")',
+                    data: { iDisplayStart: displayStart, iDisplayLength: displayLength, sSearch: search },
+                    cache: false
+                })
+            });
+</script>
+}
+
+
+<h3>Testers:</h3>
+<div id="getDateTester">
+    <input type="text" id="txtNum" placeholder="Value to send"/>
+    <button id="bttnDate">Call GetTime</button>
+    <div id="divFecha" style="display:inline;"></div>
+</div>
+
+<div id="getEventInformationTester">
+    <input type="text" id="txtiDisplayStart" class="smallText" placeholder="iDisplayStart"/>
+    <input type="text" id="txtiDisplayLength" class="smallText" placeholder="iDisplayLength"/>
+    <input type="text" id="txtsSearch" class="smallText" placeholder="sSearch"/>
+    <button id="bttnManual" >Call GetEventInformation</button>
+</div>
+
+
+<div id="eventTable">
+    <h3>Events:</h3>    
+    <table id="example" class="display" cellspacing="0" style="width:100%">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Start Date</th>
+                <th>Link</th>
+                <th>Technology</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
