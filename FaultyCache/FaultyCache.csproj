@@ -234,6 +234,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\faultyCache.png" />
     <Content Include="Scripts\dataTableExt.js" />
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
